@@ -1,13 +1,16 @@
 package com.cloud.sell.dao;
 
 import com.cloud.sell.data.ProductCategory;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * ProductCategoryDaoTest
@@ -43,5 +46,12 @@ public class ProductCategoryDaoTest {
         ProductCategory productCategory = productCategoryDao.findById(1).orElse(null);
         productCategory.setCategoryType(3);
         productCategoryDao.save(productCategory);
+    }
+
+    @Test
+    public void findByCategoryIn(){
+        List<Integer> list = Arrays.asList(1, 3);
+        List<ProductCategory> productCategoryList = productCategoryDao.findByCategoryTypeIn(list);
+        Assert.assertNotEquals(0, productCategoryList.size());
     }
 }

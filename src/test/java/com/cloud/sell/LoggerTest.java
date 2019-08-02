@@ -9,10 +9,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 /**
  * LoggerTest
  *
- * @Author: yanggy
+ * @Author:
  * @Description:
  * @Date: Created in 2019/8/1 15:39
- * @Mail: yanggy@tongc-soft.com
+ * @Mail:
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
