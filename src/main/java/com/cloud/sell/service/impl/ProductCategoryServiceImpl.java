@@ -3,6 +3,7 @@ package com.cloud.sell.service.impl;
 import com.cloud.sell.data.ProductCategory;
 import com.cloud.sell.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @Date: Created in 2019/8/2 16:01
  * @Mail:
  */
+@Service
 public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Autowired

@@ -8,8 +8,13 @@ spring:
     show-sql: true
 
 
+server:
+  servlet:
+    context-path: /sell
+
 
 logging:
   pattern:
     console: "%d - %msg%n"
     file: /var/log/tomcat/sell
+
