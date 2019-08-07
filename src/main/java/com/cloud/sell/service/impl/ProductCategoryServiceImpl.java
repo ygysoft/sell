@@ -1,5 +1,6 @@
 package com.cloud.sell.service.impl;
 
+import com.cloud.sell.dao.ProductCategoryDao;
 import com.cloud.sell.data.ProductCategory;
 import com.cloud.sell.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +20,25 @@ import java.util.List;
 public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Autowired
-    private ProductCategoryService productCategoryService;
+    private ProductCategoryDao productCategoryDao;
 
     @Override
     public ProductCategory findOne(Integer categoryId) {
-        return productCategoryService.findOne(categoryId);
+        return productCategoryDao.findById(categoryId).orElse(null);
     }
 
     @Override
     public List<ProductCategory> findAll() {
-        return productCategoryService.findAll();
+        return productCategoryDao.findAll();
     }
 
     @Override
     public List<ProductCategory> findByCategoryTypeIn(List<Integer> categoryTypeList) {
-        return productCategoryService.findByCategoryTypeIn(categoryTypeList);
+        return productCategoryDao.findByCategoryTypeIn(categoryTypeList);
     }
 
     @Override
     public ProductCategory save(ProductCategory productCategory) {
-        return productCategoryService.save(productCategory);
+        return productCategoryDao.save(productCategory);
     }
 }

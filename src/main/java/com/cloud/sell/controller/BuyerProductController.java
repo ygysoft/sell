@@ -7,6 +7,7 @@ import com.cloud.sell.data.ProductCategory;
 import com.cloud.sell.data.ProductInfo;
 import com.cloud.sell.service.ProductCategoryService;
 import com.cloud.sell.service.ProductInfoService;
+import com.cloud.sell.utils.ResultVOUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,6 @@ public class BuyerProductController {
 
     @GetMapping("/list")
     public ResultVO list(){
-        ResultVO resultVO = new ResultVO();
         //1.查询所有上架商品
         List<ProductInfo> productInfoList = productInfoService.findUpAll();
 
@@ -45,6 +45,7 @@ public class BuyerProductController {
         List<Integer> categoryTypeList = productInfoList.stream()
                 .map(e -> e.getCategoryType())
                 .collect(Collectors.toList());
+
         List<ProductCategory> productCategoryList = productCategoryService.findByCategoryTypeIn(categoryTypeList);
 
         //3.拼装数据
@@ -65,11 +66,7 @@ public class BuyerProductController {
             productVO.setProductInfoVOList(productInfoVOList);
             productVOList.add(productVO);
         }
-
-        resultVO.setData(productVOList);
-        resultVO.setCode("0000");
-        resultVO.setMsg("成功");
-
+        ResultVO resultVO = ResultVOUtil.success(productVOList);
         return resultVO;
     }
 

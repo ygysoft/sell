@@ -12,6 +12,9 @@ server:
   servlet:
     context-path: /sell
 
+  port: 8080
+
+
 
 logging:
   pattern:
