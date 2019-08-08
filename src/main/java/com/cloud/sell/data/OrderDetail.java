@@ -32,7 +32,7 @@ public class OrderDetail {
     private BigDecimal productPrice;
 
     /** 商品数量 */
-    private Integer quantity;
+    private Integer productQuantity;
 
     /** 商品小图 */
     private String productIcon;

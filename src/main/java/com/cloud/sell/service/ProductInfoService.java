@@ -1,5 +1,6 @@
 package com.cloud.sell.service;
 
+import com.cloud.sell.DTO.CartDTO;
 import com.cloud.sell.data.ProductInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,8 +31,10 @@ public interface ProductInfoService {
     /**
      * 加库存
      */
+    void increaseStock(List<CartDTO> cartDTOList);
 
     /**
      * 减库存
      */
+    void decreaseStock(List<CartDTO> cartDTOList);
 }

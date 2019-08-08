@@ -1,14 +1,18 @@
 package com.cloud.sell.service.impl;
 
+import com.cloud.sell.DTO.CartDTO;
 import com.cloud.sell.dao.ProductInfoDao;
 import com.cloud.sell.data.ProductInfo;
 import com.cloud.sell.enums.ProductStatusEnum;
+import com.cloud.sell.enums.ResultEnum;
+import com.cloud.sell.exception.SellException;
 import com.cloud.sell.service.ProductInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -42,5 +46,27 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     @Override
     public ProductInfo save(ProductInfo productInfo) {
         return productInfoDao.save(productInfo);
+    }
+
+    @Override
+    public void increaseStock(List<CartDTO> cartDTOList) {
+
+    }
+
+    @Override
+    @Transactional
+    public void decreaseStock(List<CartDTO> cartDTOList) {
+        for(CartDTO cartDTO : cartDTOList){
+            ProductInfo productInfo = findOne(cartDTO.getProductId());
+            if(productInfo == null){
+                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+            }
+            Integer stock = productInfo.getProductStock() - cartDTO.getProductQuantity();
+            if(stock < 0){
+                throw new SellException(ResultEnum.PRODUCT_STOCK_ERROR);
+            }
+            productInfo.setProductStock(stock);
+            productInfoDao.save(productInfo);
+        }
     }
 }
