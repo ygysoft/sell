@@ -4,10 +4,11 @@ import com.cloud.sell.DTO.CartDTO;
 import com.cloud.sell.DTO.OrderDTO;
 import com.cloud.sell.dao.OrderDetailDao;
 import com.cloud.sell.dao.OrderMasterDao;
-import com.cloud.sell.dao.ProductInfoDao;
 import com.cloud.sell.data.OrderDetail;
 import com.cloud.sell.data.OrderMaster;
 import com.cloud.sell.data.ProductInfo;
+import com.cloud.sell.enums.OrderStatusEnum;
+import com.cloud.sell.enums.PayStatusEnum;
 import com.cloud.sell.enums.ResultEnum;
 import com.cloud.sell.exception.SellException;
 import com.cloud.sell.service.OrderService;
@@ -67,9 +68,11 @@ public class OrderServiceImpl implements OrderService {
         }
         //3. 写入数据库（orderMaster 和 orderDetail）
         OrderMaster orderMaster = new OrderMaster();
-        orderMaster.setOpenid(orderId);
-        orderMaster.setOrderAmount(orderAmount);
         BeanUtils.copyProperties(orderDTO, orderMaster);
+        orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
+        orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
+        orderMaster.setOrderId(orderId);
+        orderMaster.setOrderAmount(orderAmount);
         orderMasterDao.save(orderMaster);
 
         //4. 减库存
@@ -77,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
                 new CartDTO(e.getProductId(), e.getProductQuantity()) ).collect(Collectors.toList());
         productInfoService.decreaseStock(cartDTOList);
 
-        return null;
+        return orderDTO;
     }
 
     @Override

@@ -48,8 +48,8 @@ public class ProductCategoryServiceImplTest {
     @Test
     public void save() {
         ProductCategory productCategory = new ProductCategory();
-        productCategory.setCategoryName("女生最爱");
-        productCategory.setCategoryType(4);
+        productCategory.setCategoryName("今日优选");
+        productCategory.setCategoryType(1);
         productCategoryDao.save(productCategory);
     }
 }

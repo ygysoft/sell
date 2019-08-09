@@ -33,11 +33,11 @@ public class ProductInfoServiceImplTest {
     public void save() {
         ProductInfo productInfo = new ProductInfo();
         productInfo.setProductId("0002");
-        productInfo.setProductName("牛肉面");
-        productInfo.setProductPrice(new BigDecimal(29.9));
-        productInfo.setProductIcon("e:/abc/niurou.jpg");
-        productInfo.setProductDescription("很多牛肉");
-        productInfo.setCategoryType(3);
+        productInfo.setProductName("蛋炒饭");
+        productInfo.setProductPrice(new BigDecimal(15));
+        productInfo.setProductIcon("e:/abc/egg.jpg");
+        productInfo.setProductDescription("很好吃");
+        productInfo.setCategoryType(1);
         productInfo.setProductStock(100);
         productInfo.setProductStatus(0);
         ProductInfo productInfo1 = productInfoDao.save(productInfo);

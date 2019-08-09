@@ -3,6 +3,7 @@ package com.cloud.sell.data;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 
 /**
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 @Data
 public class OrderDetail {
 
+    @Id
     private String detailId;
 
     /** 订单id */

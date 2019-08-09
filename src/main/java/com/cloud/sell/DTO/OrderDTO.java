@@ -4,6 +4,7 @@ import com.cloud.sell.data.OrderDetail;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,16 +20,16 @@ public class OrderDTO {
     private String orderId;
 
     /** 买家姓名 */
-    private String buyName;
+    private String buyerName;
 
     /** 买家电话 */
-    private String buyPhone;
+    private String buyerPhone;
 
     /** 买家地址 */
-    private String buyAddress;
+    private String buyerAddress;
 
     /** 买家微信openid */
-    private String openid;
+    private String buyerOpenid;
 
     /** 订单总金额 */
     private BigDecimal orderAmount;
@@ -40,10 +41,10 @@ public class OrderDTO {
     private Integer payStatus;
 
     /** 创建时间 */
-    private Data createTime;
+    private Date createTime;
 
     /** 更新时间 */
-    private Data updateTime;
+    private Date updateTime;
 
     /** 订单信息列表 */
     private List<OrderDetail> orderDetailList;
