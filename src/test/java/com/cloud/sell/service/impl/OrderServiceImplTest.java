@@ -4,10 +4,13 @@ import com.cloud.sell.DTO.OrderDTO;
 import com.cloud.sell.data.OrderDetail;
 import com.cloud.sell.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -52,10 +55,17 @@ public class OrderServiceImplTest {
 
     @Test
     public void findOne() {
+        OrderDTO orderDTO = orderService.findOne("1565364987957449740");
+        log.info("【查询单个订单】 result={}", orderDTO);
+        Assert.assertNotNull(orderDTO);
     }
 
     @Test
     public void findList() {
+        PageRequest pageRequest = PageRequest.of(0, 2);
+        Page<OrderDTO> orderDTOPage = orderService.findList(BUYER_OPENID, pageRequest);
+        log.info("【查询订单列表】 result={}", orderDTOPage);
+        Assert.assertNotEquals(0, orderDTOPage.getTotalElements());
     }
 
     @Test
