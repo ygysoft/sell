@@ -15,6 +15,7 @@ import com.cloud.sell.exception.SellException;
 import com.cloud.sell.service.OrderService;
 import com.cloud.sell.service.ProductInfoService;
 import com.cloud.sell.utils.KeyUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,9 @@ import org.springframework.util.CollectionUtils;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +40,7 @@ import java.util.stream.Collectors;
  * @Date: 2019/8/8 22:43
  */
 @Service
+@Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -111,8 +115,39 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDTO cancel(OrderDTO orderDTO) {
-        return null;
+        //1. 判断订单状态
+        if(!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())){
+            log.error("【取消订单】 订单状态不正确，orderId={}", orderDTO.getOrderId());
+            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+
+        //2. 更改订单状态
+        OrderMaster orderMaster = new OrderMaster();
+        BeanUtils.copyProperties(orderDTO, orderMaster);
+        orderMaster.setOrderStatus(OrderStatusEnum.CANCEL.getCode());
+        OrderMaster orderMasterUpdate = orderMasterDao.save(orderMaster);
+        if(orderMasterUpdate == null){
+            log.error("【取消订单】 更改订单状态失败，orderMaster={}", orderMaster);
+            throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
+        }
+
+        //3. 返回库存-加库存
+        if(CollectionUtils.isEmpty(orderDTO.getOrderDetailList())){
+            log.error("【取消订单】 订单中无商品详情，orderDTO={}", orderDTO);
+            throw new SellException(ResultEnum.ORDER_DETAIL_EMPTY);
+        }
+        List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
+                .map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()))
+                .collect(Collectors.toList());
+        productInfoService.increaseStock(cartDTOList);
+
+        //4. 如果已经支付，需退款
+        if(orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS)){
+            //TODO
+        }
+        return orderDTO;
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.cloud.sell.service.impl;
 
 import com.cloud.sell.DTO.OrderDTO;
 import com.cloud.sell.data.OrderDetail;
+import com.cloud.sell.data.OrderMaster;
+import com.cloud.sell.enums.OrderStatusEnum;
 import com.cloud.sell.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -70,6 +72,9 @@ public class OrderServiceImplTest {
 
     @Test
     public void cancel() {
+        OrderDTO orderDTO = orderService.findOne("1565364987957449740");
+        OrderDTO result = orderService.cancel(orderDTO);
+        Assert.assertNotEquals(OrderStatusEnum.CANCEL, result.getOrderStatus());
     }
 
     @Test
