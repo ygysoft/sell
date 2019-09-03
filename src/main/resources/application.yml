@@ -12,7 +12,7 @@ server:
   servlet:
     context-path: /sell
 
-  port: 8080
+  port: 80
 
 
 
@@ -20,4 +20,9 @@ logging:
   pattern:
     console: "%d - %msg%n"
     file: /var/log/tomcat/sell
+
+
+wechat:
+  mpAppId: wx6563e05704e85ed5
+  mpAppsecret: 33876fb72c825e1a14c8d104b092dcab
 

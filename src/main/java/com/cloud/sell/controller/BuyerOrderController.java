@@ -6,6 +6,7 @@ import com.cloud.sell.converter.OrderForm2OrderDTOConverter;
 import com.cloud.sell.enums.ResultEnum;
 import com.cloud.sell.exception.SellException;
 import com.cloud.sell.form.OrderForm;
+import com.cloud.sell.service.BuyerService;
 import com.cloud.sell.service.OrderService;
 import com.cloud.sell.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,9 @@ public class BuyerOrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BuyerService buyerService;
 
     //创建订单
     @RequestMapping("/create")
@@ -77,8 +81,7 @@ public class BuyerOrderController {
     @RequestMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
                                                 @RequestParam("orderId") String orderId) {
-        //TODO
-        OrderDTO orderDTO = orderService.findOne(orderId);
+        OrderDTO orderDTO = buyerService.findOrderOne(openid, orderId);
         return ResultVOUtil.success(orderDTO);
     }
 
@@ -86,8 +89,7 @@ public class BuyerOrderController {
     @RequestMapping("/cancel")
     public ResultVO cancel(@RequestParam("openid") String openid,
                            @RequestParam("orderId") String orderId) {
-        OrderDTO orderDTO = orderService.findOne(orderId);
-        OrderDTO cancelOrderDTO = orderService.cancel(orderDTO);
-        return ResultVOUtil.success(cancelOrderDTO);
+        OrderDTO orderDTO = buyerService.cancelOrder(openid, orderId);
+        return ResultVOUtil.success(orderDTO);
     }
 }
