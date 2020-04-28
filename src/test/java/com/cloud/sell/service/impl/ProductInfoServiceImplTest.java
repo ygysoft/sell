@@ -43,4 +43,19 @@ public class ProductInfoServiceImplTest {
         ProductInfo productInfo1 = productInfoDao.save(productInfo);
         Assert.assertNotNull(productInfo);
     }
+
+    @Test
+    public void get() {
+        ProductInfo productInfo = new ProductInfo();
+        productInfo.setProductId("0002");
+        productInfo.setProductName("蛋炒饭");
+        productInfo.setProductPrice(new BigDecimal(15));
+        productInfo.setProductIcon("e:/abc/egg.jpg");
+        productInfo.setProductDescription("很好吃");
+        productInfo.setCategoryType(1);
+        productInfo.setProductStock(100);
+        productInfo.setProductStatus(0);
+        ProductInfo productInfo1 = productInfoDao.save(productInfo);
+        Assert.assertNotNull(productInfo);
+    }
 }
